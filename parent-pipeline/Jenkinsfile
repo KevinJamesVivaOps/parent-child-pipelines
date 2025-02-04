@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    stages {
+        stage('Trigger Child Pipeline') {
+            steps {
+                script {
+                    def childBuild = build job: 'child-pipeline', wait: true, parameters: [
+                        string(name: 'BRANCH', value: 'main'),
+                        booleanParam(name: 'RUN_TESTS', value: true)
+                    ]
+                    echo "Child pipeline result: ${childBuild.result}"
+                }
+            }
+        }
+    }
+}
