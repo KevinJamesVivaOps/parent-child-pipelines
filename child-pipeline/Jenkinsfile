@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build')
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Run tests?')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Checking out code from branch: ${params.BRANCH}"
+            }
+        }
+        stage('Build') {
+            steps {
+                echo "Building project on branch: ${params.BRANCH}"
+            }
+        }
+        stage('Test') {
+            when {
+                expression { params.RUN_TESTS }
+            }
+            steps {
+                echo "Running tests..."
+            }
+        }
+    }
+}
